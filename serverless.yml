@@ -1,0 +1,103 @@
+service: rebooking
+plugins:
+  - serverless-domain-manager
+custom:
+  customDomain:
+    domainName: rebooking-${opt:stage}-api.udchalo.com
+    basePath: ''
+    stage: ${opt:stage}
+    createRoute53Record: true
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage} #read from console input
+  region: ap-south-1
+  memorySize: 128 # Overwrite the default memory size. Default is 1024
+  timeout: 100 #default is 6
+  versionFunctions: false
+  vpc:
+    securityGroupIds:
+      - sg-957b95fe
+    subnetIds:
+      - subnet-1d939850
+      - subnet-76c21a1e
+  stackTags:
+   Environment: ${opt:stage}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - elasticache:*
+      Resource: "arn:aws:elasticache:ap-south-1:*"
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+      Resource: "arn:aws:dynamodb:ap-south-1:*:table/*"
+    - Effect: "Allow"
+      Action:
+        - firehose:PutRecord
+        - firehose:PutRecordBatch
+      Resource: "arn:aws:firehose:ap-south-1:*:deliverystream/sls-logs"
+functions:
+  Api: 
+    name: rebooking-${opt:stage}-api
+    handler: build/lambda.handler
+    package:
+      include:
+        - build/src/**
+        - node_modules/**
+    environment:
+      NODE_ENV: ${opt:stage}
+      SESSION_KEY: ${opt:sessionKey}
+      REDIS_HOST: ${opt:redisHost}
+      REDIS_PORT: ${opt:redisPort}
+      FLIGHT_URL: ${opt:flightUrl}
+      USER_URL: ${opt:userUrl}
+      WEBSITE_URL: ${opt:websiteUrl}
+      WALLET_URL: ${opt:walletUrl}
+      PAYMENT_URL: ${opt:paymentUrl}
+      SUPPORT_URL: ${opt:supportUrl}
+      HOTEL_URL: ${opt:hotelUrl}
+      BUS_URL: ${opt:busUrl}
+      BUSES_SERVER_URL: ${opt:busesServerUrl}
+      SESSION_KEY_NAME: ${opt:sessionKeyName}
+      CAB_URL: ${opt:cabUrl}
+      HOST: ${opt:host}
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+          cors:
+              origins:
+                - 'http://localhost:4200'
+                - 'http://localhost:4100'
+                - 'https://www.udchalo.com'
+                - 'https://agent-dashboard.udchalo.com'
+                - 'https://dev-ui.udchalo.com'
+                - 'https://dev-admin.udchalo.com'
+                - 'https://stage-ui.udchalo.com'
+                - 'https://stage-admin.udchalo.com'
+                - 'https://uat-ui.udchalo.com'
+                - 'https://uat-admin.udchalo.com'
+                - 'https://hotels-dev-ui.udchalo.com'
+                - 'https://hotels-stage-ui.udchalo.com'
+                - 'https://hotels-uat-ui.udchalo.com'
+                - 'https://hotels-dev-admin.udchalo.com'
+                - 'https://hotels-stage-admin.udchalo.com'
+                - 'https://hotels-uat-admin.udchalo.com'
+                - 'https://buses-dev-ui.udchalo.com'
+                - 'https://cabs-dev-ui.udchalo.com'
+                - 'https://trains-dev-ui.udchalo.com'
+              headers:
+                - Content-Type
+                - X-Amz-Date
+                - Authorization
+                - X-Api-Key
+                - X-Amz-Security-Token
+                - usersessionid
+                - platform
+                - source
+              allowCredentials: true
+
+# The "Resources" your "Functions" use.  Raw AWS CloudFormation goes in here.

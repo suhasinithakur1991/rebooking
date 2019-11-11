@@ -1,0 +1,27 @@
+
+export interface Log {
+    status: number,
+    logType: string,
+    level: string,
+    request: any,
+    response: any,
+    api: string,
+    func: string,
+    timeTaken: number,
+    userId?: string,
+    sessionId?: string,
+    bookingId?: string,
+    userSessionId?: string,
+    apiSessionId?: string,
+    error: any,
+    stackTrace?: any,
+    errorCode: number,
+    endUserIp?: string,
+    url?: string,
+    appVersion?: string,
+    method?: string,
+    arg?: any,
+    loggedInUserId?: string,
+    source?: string,
+    platform?: string
+}

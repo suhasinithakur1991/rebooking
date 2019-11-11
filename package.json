@@ -1,0 +1,82 @@
+{
+  "name": "rebooking",
+  "version": "1.0.0",
+  "description": "bookings code for setup of serverless code",
+  "scripts": {
+    "tsc": "tsc",
+    "clearBuild": "rimraf build",
+    "build": "npm run clearBuild && npm install && npm run tsc",
+    "start": "npm run build && nodemon build/app.local.js",
+    "start:dev": "npm run build && nodemon --inspect build/app.local.js",
+    "deploy": "npm run build && node src/deploySpec.js ",
+    "test": "./node_modules/.bin/jasmine-ts spec/*[sS]pec.ts",
+    "coverage": "nyc -r lcov -e .ts -x \"spec/*\" jasmine-ts --config=spec/support/jasmine.json && nyc report",
+    "lint": "eslint --ext .js,.ts src/"
+  },
+  "pre-push": [
+    "build",
+    "lint",
+    "test",
+    "coverage"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/udchalo/rebooking.git"
+  },
+  "author": "upcurve",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/udchalo/rebooking/issues"
+  },
+  "homepage": "https://github.com/udchalo/rebooking#readme",
+  "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "@types/cors": "^2.8.4",
+    "@types/joi": "^14.3.2",
+    "@types/koa": "^2.0.48",
+    "@types/koa-generic-session": "^1.0.2",
+    "@types/koa-passport": "^4.0.2",
+    "@types/koa-redis": "^3.0.2",
+    "@types/koa-router": "^7.0.40",
+    "@types/request": "^2.48.1",
+    "@types/uuid": "^3.4.4",
+    "aws-serverless-koa": "^1.0.0",
+    "cors": "^2.8.5",
+    "dynogels": "^9.0.0",
+    "firehoser": "^1.3.5",
+    "joi": "^14.3.1",
+    "koa": "^2.7.0",
+    "koa-body": "^4.1.0",
+    "koa-generic-session": "^2.0.1",
+    "koa-passport": "^4.1.1",
+    "koa-redis": "^3.1.3",
+    "koa-router": "^7.4.0",
+    "nodemon": "^1.18.11",
+    "ramda": "^0.26.1",
+    "redis": "^2.8.0",
+    "request": "^2.88.0",
+    "rimraf": "^2.6.3",
+    "extendify": "^1.0.0",
+    "glob-all": "^3.1.0",
+    "shellsubstitute": "^1.2.0",
+    "swagger-koa": "^2.1.0",
+    "yaml-js": "^0.2.3"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^3.3.12",
+    "@types/node": "^11.13.4",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.11.0",
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.13.0",
+    "jasmine": "^3.4.0",
+    "jasmine-node": "^3.0.0",
+    "jasmine-ts": "^0.3.0",
+    "nyc": "^14.1.1",
+    "pre-push": "^0.1.1",
+    "serverless-domain-manager": "^3.2.1",
+    "shelljs": "^0.8.3",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.4.5"
+  }
+}
