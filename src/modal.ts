@@ -25,3 +25,38 @@ export interface Log {
     source?: string,
     platform?: string
 }
+
+export interface ESLogModel {
+    type: string,
+    env: string,
+    module: string
+    binary_request: any,
+    binary_response: any,
+    time_stamp: any,
+    status: number,
+    level: string,
+    time_taken: number,
+    platform: string,
+    api?: string,
+    func?: string,
+    logged_in_user_id?: any,
+    user_id?: any,
+    session_id?: any,
+    booking_id: any,
+    api_session_id: any,
+    user_session_id: any,
+    origin?: any,
+    destination?: any,
+    error_code?: number,
+    error?: any,
+    stack_trace?: any,
+    contact_email?: any,
+    contact_phone?: any,
+    contact_name?: any,
+    payment_provider?: any,
+    endUserIp?: string,
+    url?: string,
+    source: string,
+    appVersion?: string,
+    arg?: any
+}
