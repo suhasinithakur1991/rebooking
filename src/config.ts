@@ -1,3 +1,5 @@
+import path from 'path';
+
 function getEnvUrl(url: string, port?: string): string {
   return (url === 'http://localhost') ? `${url}:${port}` : url;
 }
@@ -20,9 +22,11 @@ class Config {
     REDIS_ENABLE_OFFLINE_QUEUE: boolean = true
     REDIS_PASSWORD = null
 
+    SENDGRID_API_KEY: string = process.env.SENDGRID_API_KEY || ''
+
     // SERVER_URLS
     FLIGHTS_URL: string = `${getEnvUrl(process.env.FLIGHT_URL || 'http://localhost', process.env.FLIGHT_PORT || '3200')}`
-    USER_URL: string = `${getEnvUrl(process.env.USER_URL || 'http://localhost', process.env.USER_PORT || '4300')}`
+    USER_URL: string = `${getEnvUrl(process.env.USER_URL || 'http://localhost', process.env.USER_PORT || '3300')}`
     HOTELS_URL: string = `https://hotels-${process.env.NODE_ENV}-api.udchalo.com`
     BUSES_SERVER_URL: string = `https://bus-engine-${process.env.NODE_ENV}-api.udchalo.com`
     UDCHALO_HOME_URL: string = `${getEnvUrl(process.env.WEBSITE_URL || 'http://localhost', process.env.WEBSITE_PORT || '4200')}`
@@ -45,6 +49,9 @@ class Config {
     CORS_ALLOWED_HEADERS: Array<string> = ['X-Requested-With', 'X-HTTP-Method-Override', 'Content-Type', 'Accept', 'userSessionId', 'source', 'platform', 'x-frame-options']
     CORS_ALLOWED_METHODS: Array<string> = ['GET', 'POST', 'PUT', 'HEAD', 'DELETE', 'OPTIONS']
 
+    TEMPLATE = {
+      SEARCH: '/src/templates/search.ejs' 
+    }
     // FLIGHTBOOKING PROJECTIONS
     FLIGHT_BOOKING_USERID_PROJECTION: Array<string> = ['pnr', 'contactDetails', 'status', 'departDate', 'arriveDate', 'fare', 'dateOfBooking', 'bookingId', 'origin', 'destination', 'airlin']
 
@@ -62,6 +69,21 @@ class Config {
       DELETE: 'DELETE',
       FORM_POST: 'FORM_POST'
     }
+
+    VALID_STATE = {
+      D0 : 'D0',
+      D1 : 'D1',
+      D3 : 'D3',
+      D5 : 'D5'
+    }
+  
+    EMAILS = {
+      NOTIFICATIONS : 'Notifications@udchalo.com',
+      NOTIFICATION_TAG: 'udChalo Notifications'
+    }
+
+    VALID_EVENT_TYPES: Array<string> = ['search', 'payment', 'price', 'booking']
+    IS_ENABLED: Array<number> = [0,1] 
 
     ROLES: any = {
       AGENT: 'agent',

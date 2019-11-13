@@ -10,6 +10,7 @@ const { ADMIN, AGENT, LEAD, BDM } = CONFIG.ROLES;
 
 const router = new Router({ prefix: '/' });
 
-router.get('refunds', authentication.isAuth, serverHandler.getRefund)
+router.post('userEvents', serverHandler.userEvents)
+router.post('sendgridWebooks', serverHandler.sendgridWebooks)
 
 module.exports = router;

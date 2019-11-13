@@ -75,7 +75,7 @@ function wrapHandler(handler: any) {
         errorCode = response.body ? keyExist('errorCode', response.body) ? response.body.errorCode : 1 : 1;
         const ms = Date.now() - start;
         const uploadPayload = { ...payload, userId, bookingId, sessionId, timeTaken: ms, status: response.status, errorCode, level: 'info', request: body, response: response.body };
-        console.log('koaUtil: ', uploadPayload);
+        // console.log('koaUtil: ', uploadPayload);
         logging(uploadPayload);
       }
     }

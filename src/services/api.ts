@@ -98,14 +98,14 @@ class Api {
             break;
         }
         const response = JSON.parse(result);
-        errorCode = response ? keyExist('errorCode', response) ? response.errorCode : 0 : 3;
-        status = response && response.statusCode || 1;
+        // errorCode = response ? keyExist('errorCode', response) ? response.errorCode : 0 : 3;
+        // status = response && response.statusCode || 1;
         const ms = Date.now() - start;
-        const uploadPayload = { ...payload, response, status, errorCode, timeTaken: ms, level: 'info' }
-        console.log('apiRequest payload: ', uploadPayload);
-        logging(uploadPayload);
-        if(response && response.success)
-          resolve(response.response);
+        // const uploadPayload = { ...payload, response, status, errorCode, timeTaken: ms, level: 'info' }
+        // console.log('apiRequest payload: ', uploadPayload);
+        // logging(uploadPayload);
+        if(response)
+          resolve(response.response ? response.response : response);
         resolve(null);
       }
  catch(error) {
